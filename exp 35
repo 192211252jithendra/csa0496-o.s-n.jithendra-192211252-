@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define BLOCK_SIZE 512
+#define INDEX_SIZE 100
+
+// Structure to represent a file
+typedef struct {
+    int size;
+    int index_block[INDEX_SIZE];
+} File;
+
+// Function to initialize a file
+void initialize_file(File *file) {
+    file->size = 0;
+    for (int i = 0; i < INDEX_SIZE; i++) {
+        file->index_block[i] = -1;
+    }
+}
+
+// Function to add a block to a file
+void add_block(File *file, int block_number) {
+    if (file->size < INDEX_SIZE) {
+        file->index_block[file->size] = block_number;
+        file->size++;
+        printf("Block %d added to file.\n", block_number);
+    } else {
+        printf("File is full. Cannot add more blocks.\n");
+    }
+}
+
+// Function to display the index block of a file
+void display_index_block(File *file) {
+    printf("Index Block:\n");
+    for (int i = 0; i < file->size; i++) {
+        printf("[%d]: %d\n", i, file->index_block[i]);
+    }
+}
+
+int main() {
+    // Create a file
+    File file;
+    initialize_file(&file);
+
+    // Add blocks to the file
+    add_block(&file, 0);
+    add_block(&file, 1);
+    add_block(&file, 2);
+
+    // Display the index block of the file
+    display_index_block(&file);
+
+    return 0;
+}
